@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXA AI — Your Personal Assistant</title>
+<style>
+:root{--bg:#101114;--panel:#17181d;--panel2:#202127;--text:#f4f4f5;--muted:#a0a1aa;--line:#2c2d35;--accent:#a78bfa;--accent2:#7c3aed;--user:#24252c;--shadow:0 12px 40px #0003}
+[data-theme="light"]{--bg:#f7f7fb;--panel:#fff;--panel2:#f0f0f6;--text:#20212a;--muted:#696b78;--line:#e1e1ea;--accent:#7553dc;--accent2:#5b35c5;--user:#eeebfa;--shadow:0 12px 40px #30205b12}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;height:100vh;overflow:hidden}button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.app{height:100vh;display:flex}.sidebar{width:270px;flex:0 0 270px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;transition:margin .2s;z-index:4}.sidebar.closed{margin-left:-270px}.brand{display:flex;align-items:center;gap:10px;padding:7px 9px 19px;font-weight:750;letter-spacing:.2px;font-size:18px}.logo{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,#c4b5fd,#7c3aed);display:grid;place-items:center;color:white;font-weight:900;box-shadow:0 5px 18px #7c3aed55}.newchat,.sidebtn{display:flex;align-items:center;gap:10px;width:100%;border:1px solid var(--line);background:transparent;padding:11px 12px;border-radius:12px;text-align:left}.newchat:hover,.sidebtn:hover{background:var(--panel2)}.side-label{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);padding:22px 10px 8px}.history{overflow:auto;flex:1}.history-item{display:flex;align-items:center;gap:8px;width:100%;border:0;background:transparent;border-radius:9px;padding:9px 10px;text-align:left;color:var(--muted);font-size:13px}.history-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.history-item:hover,.history-item.active{background:var(--panel2);color:var(--text)}.delete-one{border:0;background:transparent;color:var(--muted);padding:2px 5px;border-radius:5px}.delete-one:hover{color:#fb7185}.sidebottom{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:6px}.sidebtn{border:0;color:var(--muted);font-size:13px;padding:9px 10px}.main{min-width:0;flex:1;display:flex;flex-direction:column;position:relative}.topbar{height:62px;flex:0 0 62px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:12px;background:var(--bg)}.top-left,.top-right{display:flex;align-items:center;gap:12px}.iconbtn{border:1px solid var(--line);background:var(--panel);border-radius:10px;width:38px;height:38px;display:grid;place-items:center;color:var(--muted)}.iconbtn:hover{color:var(--text);background:var(--panel2)}.modelname{font-weight:650;font-size:14px}.status{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px}.dot{width:7px;height:7px;background:#fbbf24;border-radius:50%}.dot.ready{background:#34d399}.content{flex:1;overflow:auto;scroll-behavior:smooth}.welcome{max-width:800px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;justify-content:center;padding:35px 24px 50px}.heroicon{width:58px;height:58px;border-radius:20px;background:linear-gradient(135deg,#c4b5fd,#7c3aed);display:grid;place-items:center;color:white;font-size:28px;box-shadow:0 10px 30px #7c3aed35;margin-bottom:22px}.welcome h1{font-size:clamp(30px,4vw,43px);line-height:1.12;letter-spacing:-1.4px;margin:0 0 12px}.gradient{background:linear-gradient(90deg,#c4b5fd,#a78bfa,#818cf8);-webkit-background-clip:text;background-clip:text;color:transparent}.welcome p{margin:0;color:var(--muted);font-size:15px}.suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:34px}.suggestion{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px;text-align:left;min-height:88px;transition:transform .15s,border-color .15s}.suggestion:hover{transform:translateY(-2px);border-color:var(--accent)}.suggestion strong{display:block;font-size:13px;margin-bottom:5px}.suggestion span{font-size:12px;color:var(--muted)}.chat{max-width:850px;margin:0 auto;padding:25px 24px 35px}.message{display:flex;gap:13px;margin:23px 0;animation:rise .2s ease}.message.user{justify-content:flex-end}.avatar{flex:0 0 32px;width:32px;height:32px;border-radius:11px;background:linear-gradient(135deg,#a78bfa,#6d28d9);display:grid;place-items:center;color:white;font-size:12px;font-weight:800}.message.user .avatar{order:2;background:var(--panel2);color:var(--text)}.bubble{max-width:min(100%,720px);min-width:0}.user .bubble{background:var(--user);border:1px solid var(--line);padding:11px 15px;border-radius:17px 5px 17px 17px;max-width:80%}.assistant .bubble{flex:1;padding-top:2px}.bodytext{overflow-wrap:anywhere}.bodytext p{margin:0 0 12px}.bodytext p:last-child{margin-bottom:0}.bodytext h1,.bodytext h2,.bodytext h3{line-height:1.25;margin:20px 0 9px}.bodytext h1{font-size:23px}.bodytext h2{font-size:20px}.bodytext h3{font-size:17px}.bodytext ul,.bodytext ol{padding-left:24px}.bodytext li{margin:5px 0}.bodytext code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--panel2);padding:2px 5px;border-radius:5px;font-size:.9em}.bodytext pre{background:#0b0c10;color:#e5e7eb;padding:15px;border-radius:12px;overflow:auto;border:1px solid var(--line);white-space:pre;max-width:100%}.bodytext blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--accent);background:var(--panel);color:var(--muted);border-radius:0 9px 9px 0}.bodytext hr{border:0;border-top:1px solid var(--line);margin:18px 0}.bodytext table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;margin:12px 0;font-size:13px}.bodytext th,.bodytext td{border:1px solid var(--line);padding:8px 10px;text-align:left;min-width:90px}.bodytext th{background:var(--panel2)}.bodytext a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}.bodytext pre code{white-space:pre}.voicebtn{width:34px;height:34px;border-radius:10px}.voicebtn.listening{background:#be123c;color:white;border-color:#be123c;animation:pulse 1s infinite}.bodytext pre code{background:transparent;padding:0;color:inherit}.actions{display:flex;gap:5px;margin-top:9px}.actionbtn{font-size:12px;border:1px solid transparent;background:transparent;color:var(--muted);padding:5px 8px;border-radius:7px}.actionbtn:hover{background:var(--panel2);color:var(--text)}.typing{display:flex;gap:5px;padding:10px 0}.typing i{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:bounce 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}.composer-wrap{padding:12px 22px 18px;background:linear-gradient(0deg,var(--bg) 75%,transparent);}.composer{max-width:850px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:10px 11px 9px 16px;box-shadow:var(--shadow)}.composer:focus-within{border-color:#8b5cf6aa}.composer textarea{display:block;width:100%;border:0;outline:0;resize:none;min-height:30px;max-height:160px;background:transparent;color:var(--text);padding:5px 0}.composer textarea::placeholder{color:var(--muted)}.composebottom{display:flex;justify-content:space-between;align-items:center;gap:10px}.hint{font-size:11px;color:var(--muted)}.sendrow{display:flex;gap:7px;align-items:center}.sendbtn{border:0;border-radius:11px;width:36px;height:36px;background:var(--accent2);color:white;display:grid;place-items:center}.sendbtn:disabled{opacity:.45;cursor:not-allowed}.stopbtn{display:none;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:7px 10px;font-size:12px}.disclaimer{text-align:center;color:var(--muted);font-size:10px;margin:8px auto 0;max-width:850px}.hidden{display:none!important}.modalback{position:fixed;inset:0;background:#0008;display:grid;place-items:center;padding:18px;z-index:10}.modal{width:min(100%,500px);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:22px;box-shadow:var(--shadow)}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.modal h2{margin:0;font-size:20px}.modal p{color:var(--muted);font-size:13px}.field{display:grid;gap:7px;margin:16px 0}.field label{font-size:13px;font-weight:600}.field input,.field select{width:100%;padding:11px 12px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px}.field small{font-size:11px;color:var(--muted)}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}.btn{border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:9px 14px}.btn.primary{background:var(--accent2);border-color:var(--accent2);color:white}.notice{background:var(--panel2);border-radius:11px;padding:12px;color:var(--muted);font-size:12px}.toast{position:fixed;bottom:105px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 15px;border-radius:10px;font-size:13px;z-index:20;box-shadow:var(--shadow)}@keyframes pulse{50%{box-shadow:0 0 0 5px #fb718533}}@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}@keyframes rise{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@media(max-width:700px){.sidebar{position:fixed;inset:0 auto 0 0;width:270px;margin-left:0;box-shadow:var(--shadow)}.sidebar.closed{margin-left:-280px}.topbar{padding:0 13px}.chat{padding:15px 14px 25px}.welcome{padding:28px 18px}.suggestions{grid-template-columns:1fr}.composer-wrap{padding:8px 12px 12px}.hint{display:none}.status{font-size:11px}.top-right{gap:7px}.modelname{font-size:13px}.user .bubble{max-width:90%}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">N</div><span>NEXA AI</span></div>
+    <button class="newchat" id="newChat"><span>＋</span> New chat</button>
+    <div class="side-label">Recent conversations</div>
+    <div class="history" id="history"></div>
+    <div class="sidebottom">
+      <button class="sidebtn" id="settingsBtn">⚙ <span>API settings</span></button>
+      <button class="sidebtn" id="memoryBtn">✧ <span>My memory</span></button>
+      <button class="sidebtn" id="themeBtn">◐ <span>Switch theme</span></button>
+      <button class="sidebtn" id="exportBtn">⇩ <span>Export conversation</span></button>
+      <button class="sidebtn" id="clearBtn">⌫ <span>Clear all history</span></button>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div class="top-left"><button class="iconbtn" id="toggleSidebar" aria-label="Toggle sidebar">☰</button><div><div class="modelname">NEXA AI <span style="color:var(--muted);font-weight:400">· Assistant</span></div><div class="status"><span class="dot" id="statusDot"></span><span id="statusText">API not configured</span></div></div></div>
+      <div class="top-right"><button class="iconbtn" id="topTheme" title="Toggle theme" aria-label="Toggle theme">◐</button><button class="iconbtn" id="topSettings" title="API settings" aria-label="API settings">⚙</button></div>
+    </header>
+    <section class="content" id="content">
+      <div class="welcome" id="welcome">
+        <div class="heroicon">✦</div>
+        <h1>How can I help you <span class="gradient">today?</span></h1>
+        <p>Ask anything. Explore ideas, learn something new, or get help bringing your next project to life.</p>
+        <div class="suggestions">
+          <button class="suggestion" data-prompt="Explain artificial intelligence in simple words, with everyday examples."><strong>✧ Learn something</strong><span>Explain AI in simple words</span></button>
+          <button class="suggestion" data-prompt="Help me build a professional resume for a fresher software developer."><strong>⌘ Build your career</strong><span>Create a fresher developer resume</span></button>
+          <button class="suggestion" data-prompt="Teach me JavaScript from the beginning with a simple example and a practice exercise."><strong>⌁ Write better code</strong><span>Learn JavaScript step by step</span></button>
+          <button class="suggestion" data-prompt="Give me five creative project ideas using AI that a beginner can build."><strong>✳ Explore ideas</strong><span>Discover AI project ideas</span></button>
+        </div>
+      </div>
+      <div class="chat hidden" id="chat"></div>
+    </section>
+    <div class="composer-wrap">
+      <div class="composer"><textarea id="prompt" rows="1" placeholder="Message NEXA AI..." aria-label="Message NEXA AI"></textarea><div class="composebottom"><div class="hint">Enter to send · Shift + Enter for a new line</div><div class="sendrow"><button class="iconbtn voicebtn" id="voiceBtn" title="Speak your message" aria-label="Speak your message">🎙</button><button class="stopbtn" id="stopBtn">Stop</button><button class="sendbtn" id="sendBtn" aria-label="Send message">↑</button></div></div></div>
+      <div class="disclaimer">NEXA AI can make mistakes. Verify important information. Your messages are sent to the selected AI provider.</div>
+    </div>
+  </main>
+</div>
+<div class="modalback hidden" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+  <div class="modal">
+    <div class="modalhead"><h2 id="settingsTitle">AI provider settings</h2><button class="iconbtn" id="closeSettings" aria-label="Close settings">×</button></div>
+    <p>Connect NEXA AI to Google's Gemini API for genuine AI-generated answers.</p>
+    <div class="field"><label for="provider">Provider</label><select id="provider"><option value="gemini">Google Gemini API</option></select></div>
+    <div class="field"><label for="apiKey">Gemini API key</label><input id="apiKey" type="password" autocomplete="off" placeholder="Paste your API key here"><small>Your key is kept in this page's memory only and is not saved in browser storage. Refreshing the page clears it. Never share screenshots that show your key.</small></div>
+    <div class="field"><label for="model">Model name</label><input id="model" value="gemini-3.5-flash-lite" placeholder="e.g. gemini-3.5-flash-lite"><small>Suggested starting model: gemini-3.5-flash-lite. Model availability can vary by account; use a model listed in Google AI Studio.</small></div>
+    <div class="notice"><strong>Privacy & security:</strong> Chat history and optional memory are stored locally in this browser. When you send a message, the current conversation and your question are sent to Google’s API. A browser-only app cannot fully protect an API key from someone with access to the browser or its developer tools. Do not use a production secret key here.</div>
+    <div class="modal-actions"><button class="btn" id="cancelSettings">Cancel</button><button class="btn primary" id="saveSettings">Use these settings</button></div>
+  </div>
+</div>
+<div class="modalback hidden" id="memoryModal" role="dialog" aria-modal="true" aria-labelledby="memoryTitle">
+  <div class="modal">
+    <div class="modalhead"><h2 id="memoryTitle">My memory</h2><button class="iconbtn" id="closeMemory" aria-label="Close memory">×</button></div>
+    <p>Save details you want NEXA AI to use in future chats on this browser. Memory is optional and stays on this device.</p>
+    <div class="field"><label for="memoryText">Things NEXA AI should remember</label><textarea id="memoryText" rows="6" style="width:100%;padding:11px 12px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;resize:vertical" placeholder="Example: I am learning JavaScript. Explain technical topics step by step."></textarea><small>Only add information you are comfortable storing in this browser. Do not save passwords, API keys, or sensitive personal information.</small></div>
+    <div class="notice">Your memory is included as context when you send a message. It is not sent until you chat with the AI provider.</div>
+    <div class="modal-actions"><button class="btn" id="clearMemory">Clear memory</button><button class="btn" id="cancelMemory">Cancel</button><button class="btn primary" id="saveMemory">Save memory</button></div>
+  </div>
+</div>
+<div class="toast hidden" id="toast" role="status"></div>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const STORAGE_KEY = 'nexa_ai_conversations_v1';
+  const MEMORY_KEY = 'nexa_ai_user_memory_v1';
+  let userMemory = '';
+  let apiKey = '';
+  let model = 'gemini-3.5-flash-lite';
+  let conversations = [];
+  let currentId = null;
+  let abortController = null;
+  let busy = false;
+  let toastTimer = null;
+
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+  function getCurrent(){ return conversations.find(c => c.id === currentId); }
+  function showToast(message){
+    $('toast').textContent = message; $('toast').classList.remove('hidden');
+    clearTimeout(toastTimer); toastTimer = setTimeout(()=>$('toast').classList.add('hidden'), 3000);
+  }
+  function safeLoad(){
+    try {
+      const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      if(Array.isArray(parsed)) conversations = parsed.filter(c => c && typeof c.id === 'string' && Array.isArray(c.messages));
+    } catch(e){ conversations = []; }
+    try { userMemory = localStorage.getItem(MEMORY_KEY) || ''; } catch(e) { userMemory = ''; }
+  }
+  function persist(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations)); }
+    catch(e){ showToast('Could not save history in this browser.'); }
+  }
+  function newChat(){
+    if(busy) stopGeneration();
+    const c = {id:uid(), title:'New conversation', messages:[], updated:Date.now()};
+    conversations.unshift(c); currentId=c.id; persist(); renderAll(); $('prompt').focus();
+  }
+  function selectChat(id){ if(busy) stopGeneration(); currentId=id; renderAll(); }
+  function removeChat(id){
+    conversations = conversations.filter(c=>c.id!==id);
+    if(currentId===id) currentId=conversations[0]?.id || null;
+    persist(); renderAll();
+  }
+  function renderHistory(){
+    const root=$('history'); root.replaceChildren();
+    const sorted=[...conversations].sort((a,b)=>(b.updated||0)-(a.updated||0));
+    sorted.forEach(c=>{
+      const row=document.createElement('div'); row.className='history-item'+(c.id===currentId?' active':'');
+      const b=document.createElement('button'); b.className='history-item'; b.style.flex='1'; b.style.minWidth='0'; b.style.padding='0'; b.style.border='0';
+      const icon=document.createElement('span'); icon.textContent='▤'; icon.style.flex='0 0 auto';
+      const title=document.createElement('span'); title.textContent=c.title||'New conversation';
+      b.append(icon,title); b.addEventListener('click',()=>selectChat(c.id));
+      const del=document.createElement('button'); del.className='delete-one'; del.textContent='×'; del.title='Delete conversation'; del.setAttribute('aria-label','Delete conversation'); del.addEventListener('click',e=>{e.stopPropagation();removeChat(c.id);});
+      row.append(b,del); root.append(row);
+    });
+  }
+  function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  // Safe lightweight Markdown renderer. Raw HTML is escaped; links are limited to http(s).
+  function markdown(src){
+    let raw = String(src || '').replace(/\r\n?/g,'\n').trim();
+    const wholeFence = raw.match(/^```(?:markdown|md|text)?\s*\n([\s\S]*?)\n```$/i);
+    if (wholeFence && /(^|\n)\s*(#{1,6}\s|[-*+]\s|\d+[.)]\s|\|.+\||>\s|---\s*$)/m.test(wholeFence[1])) raw = wholeFence[1];
+    const codeBlocks = [];
+    let s = escapeHTML(raw);
+    s = s.replace(/```([a-zA-Z0-9_+-]*)[ \t]*\n([\s\S]*?)```/g, (_, lang, code) => {
+      const token = '@@CODE' + codeBlocks.length + '@@';
+      codeBlocks.push('<pre><code>' + code.replace(/\n$/,'') + '</code></pre>');
+      return token;
+    });
+    s = s.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+    s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/__(.+?)__/g, '<strong>$1</strong>');
+    s = s.replace(/~~(.+?)~~/g, '<del>$1</del>').replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>').replace(/(^|[^_])_([^_\n]+)_(?!_)/g, '$1<em>$2</em>');
+    const lines = s.split('\n'), out = [];
+    let para = [], list = null, quote = [];
+    const flushPara = () => { if (para.length) { out.push('<p>' + para.join('<br>') + '</p>'); para = []; } };
+    const flushList = () => { if (list) { out.push('</' + list + '>'); list = null; } };
+    const flushQuote = () => { if (quote.length) { out.push('<blockquote>' + quote.map(x => '<p>' + x + '</p>').join('') + '</blockquote>'); quote = []; } };
+    const flushAll = () => { flushPara(); flushList(); flushQuote(); };
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i], tokenMatch = line.match(/^@@CODE(\d+)@@$/);
+      if (tokenMatch) { flushAll(); out.push(codeBlocks[+tokenMatch[1]]); continue; }
+      const heading = line.match(/^(#{1,3})\s+(.+)$/);
+      if (heading) { flushAll(); out.push('<h' + heading[1].length + '>' + heading[2] + '</h' + heading[1].length + '>'); continue; }
+      if (/^\s*(---+|\*\*\*+|___+)\s*$/.test(line)) { flushAll(); out.push('<hr>'); continue; }
+      const q = line.match(/^\s*>\s?(.*)$/);
+      if (q) { flushPara(); flushList(); quote.push(q[1]); continue; } else flushQuote();
+      const ul = line.match(/^\s*[-*+]\s+(.+)/), ol = line.match(/^\s*\d+[.)]\s+(.+)/);
+      if (ul || ol) {
+        flushPara(); const type = ul ? 'ul' : 'ol';
+        if (list !== type) { flushList(); list = type; out.push('<' + list + '>'); }
+        out.push('<li>' + (ul ? ul[1] : ol[1]) + '</li>'); continue;
+      }
+      if (line.includes('|') && i + 1 < lines.length && /^\s*\|?\s*:?-{3,}/.test(lines[i+1])) {
+        flushAll();
+        const cells = row => row.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(c=>c.trim());
+        const heads = cells(line); i++;
+        let table = '<table><thead><tr>' + heads.map(c=>'<th>'+c+'</th>').join('') + '</tr></thead><tbody>';
+        while (i + 1 < lines.length && lines[i+1].includes('|') && lines[i+1].trim()) {
+          const row = cells(lines[++i]);
+          table += '<tr>' + heads.map((_,j)=>'<td>'+(row[j] || '')+'</td>').join('') + '</tr>';
+        }
+        out.push(table + '</tbody></table>'); continue;
+      }
+      if (!line.trim()) { flushAll(); continue; }
+      flushList(); para.push(line);
+    }
+    flushAll();
+    return out.join('') || '<p></p>';
+  }
+  function renderMessage(m){
+    const wrap=document.createElement('article'); wrap.className='message '+(m.role==='user'?'user':'assistant');
+    const avatar=document.createElement('div'); avatar.className='avatar'; avatar.textContent=m.role==='user'?'Y':'N'; avatar.setAttribute('aria-hidden','true');
+    const bubble=document.createElement('div'); bubble.className='bubble';
+    const body=document.createElement('div'); body.className='bodytext'; body.innerHTML=m.role==='assistant'?markdown(m.text):'<p>'+escapeHTML(m.text).replace(/\n/g,'<br>')+'</p>';
+    bubble.append(body);
+    if(m.role==='assistant' && !m.pending){
+      const actions=document.createElement('div'); actions.className='actions';
+      const copy=document.createElement('button'); copy.className='actionbtn'; copy.textContent='▢ Copy'; copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(m.text);showToast('Response copied.');}catch(e){showToast('Clipboard access unavailable. Select and copy the text.');}});
+      const speak=document.createElement('button'); speak.className='actionbtn'; speak.textContent='🔊 Read aloud'; speak.addEventListener('click',()=>{if(!('speechSynthesis' in window)){showToast('Speech playback is not supported in this browser.');return;}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(m.text);speechSynthesis.speak(u);});
+      actions.append(copy,speak); bubble.append(actions);
+    }
+    if(m.role==='user')wrap.append(bubble,avatar);else wrap.append(avatar,bubble);
+    return wrap;
+  }
+  function renderChat(){
+    const welcome=$('welcome'), chat=$('chat'); const c=getCurrent();
+    if(!c || !c.messages.length){welcome.classList.remove('hidden');chat.classList.add('hidden');chat.replaceChildren();return;}
+    welcome.classList.add('hidden');chat.classList.remove('hidden');chat.replaceChildren();
+    c.messages.forEach(m=>chat.append(renderMessage(m)));
+    if(busy){const wrap=document.createElement('div');wrap.className='message assistant';const av=document.createElement('div');av.className='avatar';av.textContent='N';const bubble=document.createElement('div');bubble.className='bubble';bubble.innerHTML='<div class="typing" aria-label="NEXA AI is thinking"><i></i><i></i><i></i></div>';wrap.append(av,bubble);chat.append(wrap);}
+    requestAnimationFrame(()=>{$('content').scrollTop=$('content').scrollHeight;});
+  }
+  function renderAll(){renderHistory();renderChat();}
+  function setStatus(text,ready=false){$('statusText').textContent=text;$('statusDot').classList.toggle('ready',ready);}
+  function updateControls(){ $('sendBtn').disabled=busy || !$('prompt').value.trim(); $('stopBtn').style.display=busy?'inline-block':'none'; }
+  function setBusy(value){busy=value;updateControls();renderChat();}
+  function stopGeneration(){if(abortController){abortController.abort();abortController=null;}if(busy){setBusy(false);showToast('Generation stopped.');}}
+  async function sendMessage(text){
+    text=(text||'').trim(); if(!text||busy)return;
+    if(!apiKey){openSettings();showToast('Add your Gemini API key to start chatting.');return;}
+    if(!currentId){const c={id:uid(),title:'New conversation',messages:[],updated:Date.now()};conversations.unshift(c);currentId=c.id;}
+    const c=getCurrent(); c.messages.push({role:'user',text});
+    if(c.messages.filter(m=>m.role==='user').length===1)c.title=text.length>42?text.slice(0,39)+'…':text;
+    c.updated=Date.now();persist();$('prompt').value='';resizePrompt();setBusy(true);setStatus('Connecting to Gemini…');
+    abortController=new AbortController();
+    try{
+      const contents=c.messages.filter(m=>m.role==='user'||m.role==='assistant').map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.text}]}));
+      const endpoint='https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent?key='+encodeURIComponent(apiKey);
+      const systemText = 'You are NEXA AI, a helpful, warm, accurate personal assistant. Use clear Markdown formatting: meaningful headings, short paragraphs, bullets, numbered steps, and fenced code blocks only for actual code. Do not wrap an entire normal answer in a code fence. If the user is a beginner, explain step by step. Be honest about uncertainty. ' + (userMemory.trim() ? '\n\nUser-approved memory (use only when relevant):\n' + userMemory.trim() : '');
+      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({systemInstruction:{parts:[{text:systemText}]},contents,generationConfig:{temperature:0.7,maxOutputTokens:4096}}),signal:abortController.signal});
+      let data={};try{data=await response.json();}catch(e){}
+      if(!response.ok){
+        const apiMessage=data?.error?.message||'The API request failed.';
+        if(response.status===400||response.status===401||response.status===403){throw new Error('API rejected the request or key. Check that your key is valid and the Gemini API is enabled. Details: '+apiMessage);}
+        if(response.status===429)throw new Error('API quota or rate limit reached. Check your Google AI Studio quota and billing settings. Details: '+apiMessage);
+        if(response.status===503)throw new Error('Gemini is temporarily busy (HTTP 503). Wait a little and retry, or try a different model in API settings. Details: '+apiMessage);
+        if(response.status===404)throw new Error('This model is not available for your API key. Open API settings and try a model currently available in Google AI Studio. Details: '+apiMessage);
+        throw new Error(apiMessage+' (HTTP '+response.status+')');
+      }
+      const answer=(data?.candidates||[]).flatMap(x=>x.content?.parts||[]).map(p=>p.text||'').join('\n').trim();
+      if(!answer)throw new Error(data?.promptFeedback?.blockReason?'The provider blocked this prompt: '+data.promptFeedback.blockReason:'The model returned no text. Try rephrasing your question or selecting another supported model.');
+      c.messages.push({role:'assistant',text:answer}); c.updated=Date.now();setStatus('Connected · Gemini',true);
+    }catch(err){
+      if(err.name==='AbortError'){/* user stopped the request */}
+      else {const msg=err.message||'Unexpected error.';c.messages.push({role:'assistant',text:'I couldn’t get a response from Gemini.\n\n**What you can try:**\n- Check your internet connection.\n- Verify the API key and model in Settings.\n- Check your API quota and provider access.\n\n**Error:** '+msg});setStatus('Connection issue');}
+    }finally{abortController=null;setBusy(false);c.updated=Date.now();persist();renderAll();}
+  }
+  function openSettings(){ $('apiKey').value=apiKey;$('model').value=model;$('settingsModal').classList.remove('hidden');setTimeout(()=>$('apiKey').focus(),50); }
+  function closeSettings(){ $('settingsModal').classList.add('hidden'); }
+  function resizePrompt(){const p=$('prompt');p.style.height='auto';p.style.height=Math.min(p.scrollHeight,160)+'px';updateControls();}
+  function exportConversation(){
+    const c=getCurrent();if(!c||!c.messages.length){showToast('There is no conversation to export.');return;}
+    const content=c.messages.map(m=>(m.role==='user'?'You':'NEXA AI')+':\n'+m.text).join('\n\n--------------------\n\n');
+    const blob=new Blob([content],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='nexa-ai-conversation.txt';document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
+  }
+  function openMemory(){ $('memoryText').value=userMemory; $('memoryModal').classList.remove('hidden'); $('memoryText').focus(); }
+  function closeMemory(){ $('memoryModal').classList.add('hidden'); }
+  $('memoryBtn').addEventListener('click',openMemory);
+  $('closeMemory').addEventListener('click',closeMemory);
+  $('cancelMemory').addEventListener('click',closeMemory);
+  $('memoryModal').addEventListener('click',e=>{if(e.target===$('memoryModal'))closeMemory();});
+  $('saveMemory').addEventListener('click',()=>{
+    userMemory=$('memoryText').value.trim();
+    try { if(userMemory) localStorage.setItem(MEMORY_KEY,userMemory); else localStorage.removeItem(MEMORY_KEY); }
+    catch(e){showToast('Could not save memory in this browser.');return;}
+    closeMemory(); showToast(userMemory?'Memory saved on this device.':'Memory cleared.');
+  });
+  $('clearMemory').addEventListener('click',()=>{
+    if(!confirm('Clear your saved NEXA AI memory from this browser?')) return;
+    userMemory=''; $('memoryText').value='';
+    try{localStorage.removeItem(MEMORY_KEY);}catch(e){}
+    showToast('Saved memory cleared.');
+  });
+  let recognition = null, listening = false;
+  function toggleVoiceInput(){
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SpeechRecognition){showToast('Voice input is not supported here. Try the latest Chrome or Edge, or type your message.');return;}
+    if(listening && recognition){recognition.stop();return;}
+    recognition = new SpeechRecognition(); recognition.lang = navigator.language || 'en-US';
+    recognition.interimResults = true; recognition.continuous = false;
+    let finalText = '';
+    recognition.onstart=()=>{listening=true;$('voiceBtn').classList.add('listening');$('voiceBtn').textContent='■';showToast('Listening… speak now.');};
+    recognition.onresult=e=>{
+      let interim='';
+      for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal)finalText+=t+' ';else interim+=t;}
+      $('prompt').value=(finalText+interim).trim(); resizePrompt();
+    };
+    recognition.onerror=e=>{showToast(e.error==='not-allowed'?'Allow microphone access in your browser to use voice input.':'Voice input stopped: '+e.error);};
+    recognition.onend=()=>{listening=false;$('voiceBtn').classList.remove('listening');$('voiceBtn').textContent='🎙';recognition=null;$('prompt').focus();};
+    try{recognition.start();}catch(e){showToast('Could not start microphone. Check browser microphone permissions.');}
+  }
+  $('voiceBtn').addEventListener('click',toggleVoiceInput);
+
+  $('newChat').addEventListener('click',newChat);
+  $('toggleSidebar').addEventListener('click',()=>$('sidebar').classList.toggle('closed'));
+  $('settingsBtn').addEventListener('click',openSettings);$('topSettings').addEventListener('click',openSettings);
+  $('closeSettings').addEventListener('click',closeSettings);$('cancelSettings').addEventListener('click',closeSettings);
+  $('settingsModal').addEventListener('click',e=>{if(e.target===$('settingsModal'))closeSettings();});
+  $('saveSettings').addEventListener('click',()=>{
+    const key=$('apiKey').value.trim(), nextModel=$('model').value.trim();
+    if(!key){apiKey='';setStatus('API not configured');closeSettings();showToast('No API key saved. Add one to chat.');return;}
+    if(!nextModel){showToast('Enter a model name.');return;}
+    apiKey=key;model=nextModel;closeSettings();setStatus('Key entered · not yet tested');showToast('Settings applied for this page session.');
+  });
+  $('themeBtn').addEventListener('click',toggleTheme);$('topTheme').addEventListener('click',toggleTheme);
+  function toggleTheme(){const light=document.documentElement.getAttribute('data-theme')!=='light';if(light)document.documentElement.setAttribute('data-theme','light');else document.documentElement.removeAttribute('data-theme');try{localStorage.setItem('nexa_ai_theme',light?'light':'dark');}catch(e){}}
+  $('exportBtn').addEventListener('click',exportConversation);
+  $('clearBtn').addEventListener('click',()=>{if(confirm('Delete all saved NEXA AI conversation history from this browser?')){if(busy)stopGeneration();conversations=[];currentId=null;persist();renderAll();showToast('Conversation history cleared.');}});
+  $('sendBtn').addEventListener('click',()=>sendMessage($('prompt').value));
+  $('stopBtn').addEventListener('click',stopGeneration);
+  $('prompt').addEventListener('input',resizePrompt);
+  $('prompt').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage($('prompt').value);}});
+  document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>{ $('prompt').value=b.dataset.prompt;resizePrompt();$('prompt').focus();}));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSettings();closeMemory();}});
+  safeLoad();
+  try{if(localStorage.getItem('nexa_ai_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}
+  if(conversations.length){currentId=[...conversations].sort((a,b)=>(b.updated||0)-(a.updated||0))[0].id;}
+  renderAll();updateControls();setStatus('API not configured');
+})();
+</script>
+</body>
+</html>
